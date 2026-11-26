@@ -1,0 +1,34 @@
+name: Publicar no Instagram
+
+on:
+  schedule:
+    - cron: "7,37 * * * *"   # a cada 30 min (UTC); publica o que já passou da hora
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-instagram
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publicar posts aprovados
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: python3 scripts/publicar.py
+      - name: Salvar status na fila
+        if: always()
+        run: |
+          if ! git diff --quiet posts/fila.json; then
+            git config user.name "gerentivo-bot"
+            git config user.email "gerentivo@gmail.com"
+            git add posts/fila.json
+            git commit -m "Atualiza status da fila do Instagram"
+            git push
+          fi

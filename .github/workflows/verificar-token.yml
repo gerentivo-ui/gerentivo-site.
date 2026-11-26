@@ -1,0 +1,18 @@
+name: Verificar token do Instagram
+
+on:
+  schedule:
+    - cron: "23 13 * * 1"   # toda segunda, 10h23 em Brasília
+  workflow_dispatch: {}
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Conferir e renovar token
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_REPO: ${{ github.repository }}
+        run: python3 scripts/verificar_token.py
