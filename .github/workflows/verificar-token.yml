@@ -13,6 +13,7 @@ jobs:
       - name: Conferir e renovar token
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
           GH_TOKEN: ${{ secrets.GH_PAT }}
           GH_REPO: ${{ github.repository }}
         run: python3 scripts/verificar_token.py
