@@ -8,11 +8,14 @@ Segredos (GitHub Actions): IG_TOKEN, IG_USER_ID.
 import json, os, sys, time, urllib.parse, urllib.request
 from datetime import datetime, timezone
 
-API = "https://graph.instagram.com/v26.0"
 SITE = os.environ.get("SITE_URL", "https://gerentivo.com.br").rstrip("/")
-TOKEN = os.environ["IG_TOKEN"]
-IG_ID = os.environ["IG_USER_ID"]
+TOKEN = os.environ["IG_TOKEN"].strip()
+IG_ID = os.environ["IG_USER_ID"].strip()
 FILA = "posts/fila.json"
+# Token do login unificado / Facebook (começa com "EAA") usa graph.facebook.com;
+# token do login do Instagram (começa com "IG") usa graph.instagram.com.
+HOST = "graph.facebook.com" if TOKEN.startswith("EAA") else "graph.instagram.com"
+API = f"https://{HOST}/v26.0"
 
 def call(method, path, **params):
     params["access_token"] = TOKEN
