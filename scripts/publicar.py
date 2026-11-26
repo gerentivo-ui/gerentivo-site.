@@ -8,7 +8,7 @@ Segredos (GitHub Actions): IG_TOKEN, IG_USER_ID.
 import json, os, sys, time, urllib.parse, urllib.request
 from datetime import datetime, timezone
 
-SITE = os.environ.get("SITE_URL", "https://gerentivo.com.br").rstrip("/")
+SITE = os.environ.get("SITE_URL", "https://raw.githubusercontent.com/gerentivo-ui/gerentivo-site./main").rstrip("/")
 TOKEN = os.environ["IG_TOKEN"].strip()
 IG_ID = os.environ["IG_USER_ID"].strip()
 FILA = "posts/fila.json"
